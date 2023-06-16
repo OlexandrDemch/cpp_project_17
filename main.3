@@ -1,0 +1,78 @@
+#include <iostream>
+
+using namespace std;
+
+int gcd(int a, int b) {
+    if (b == 0) {
+        return a;
+    }
+    return gcd(b, a % b);
+}
+
+struct Fraction {
+    int numerator;   // Лічильник
+    int denominator; // Знаменник
+
+    Fraction(int num, int denom) {
+        // Знак дробу знаходиться в лічильнику
+        if (denom < 0) {
+            num = -num;
+            denom = -denom;
+        }
+
+        int gcdVal = gcd(abs(num), abs(denom));
+        numerator = num / gcdVal;
+        denominator = denom / gcdVal;
+    }
+
+    void print() {
+        cout << numerator << "/" << denominator << endl;
+    }
+};
+
+Fraction sum(const Fraction& a, const Fraction& b) {
+    int num = a.numerator * b.denominator + b.numerator * a.denominator;
+    int denom = a.denominator * b.denominator;
+    return Fraction(num, denom);
+}
+
+Fraction subtract(const Fraction& a, const Fraction& b) {
+    int num = a.numerator * b.denominator - b.numerator * a.denominator;
+    int denom = a.denominator * b.denominator;
+    return Fraction(num, denom);
+}
+
+Fraction multiply(const Fraction& a, const Fraction& b) {
+    int num = a.numerator * b.numerator;
+    int denom = a.denominator * b.denominator;
+    return Fraction(num, denom);
+}
+
+Fraction divide(const Fraction& a, const Fraction& b) {
+    int num = a.numerator * b.denominator;
+    int denom = a.denominator * b.numerator;
+    return Fraction(num, denom);
+}
+
+int main() {
+    Fraction fraction1(3, 4);
+    Fraction fraction2(1, 2);
+
+    Fraction result = sum(fraction1, fraction2);
+    cout << "Sum: ";
+    result.print();
+
+    result = subtract(fraction1, fraction2);
+    cout << "Difference: ";
+    result.print();
+
+    result = multiply(fraction1, fraction2);
+    cout << "Product: ";
+    result.print();
+
+    result = divide(fraction1, fraction2);
+    cout << "Quotient: ";
+    result.print();
+
+    return 0;
+}
